@@ -13,6 +13,7 @@ public class MySQLite extends SQLiteOpenHelper {
         super(context,"animalDB",null,DATABASE_VERSION);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         String DATABASE_CREATE =

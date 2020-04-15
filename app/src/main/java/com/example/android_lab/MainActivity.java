@@ -3,6 +3,7 @@ package com.example.android_lab;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,7 +19,8 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> target;
-    private ArrayAdapter adapter;
+    private SimpleCursorAdapter adapter;
+    MySQLite db;
 
     public void nowyWpis(MenuItem menuItem)
     {
@@ -35,17 +38,28 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = new MySQLite(this);
 
         String[] values= new String[]{"Pies","Kot","Koń","Gołąb","Kruk",
         "Dzik","Karp","Osioł","Chomik","Mysz","Jeż","Karaluch"};
 
+
         this.target=new ArrayList<String>();
         this.target.addAll(Arrays.asList(values));
 
-        this.adapter=new ArrayAdapter(this, android.R.layout.simple_list_item_1,
-                this.target);
+        this.adapter = new SimpleCursorAdapter(
+                this,
+                android.R.layout.simple_list_item_2,
+                db.lista(),
+                new String[] {"_id", "gatunek"},
+                new int[] {android.R.id.text1,
+                        android.R.id.text2},
+
+                SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE
+        );
 
         ListView listview=(ListView) findViewById(R.id.list_view);
         listview.setAdapter(this.adapter);
