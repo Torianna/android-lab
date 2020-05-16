@@ -85,6 +85,15 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
+        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean
+            onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView name = (TextView) view.findViewById(android.R.id.text1);
+                db.usun(name.getText().toString());
+                adapter.changeCursor(db.lista());
+                adapter.notifyDataSetChanged();
+                return true; }});
 
     }
 
@@ -106,6 +115,14 @@ public class MainActivity extends AppCompatActivity {
             adapter.changeCursor(db.lista());
             adapter.notifyDataSetChanged();
         }
+//
+//        if (requestCode == 3 && resultCode == RESULT_OK) {
+//            Bundle extras = data.getExtras();
+//            Animal nowy=(Animal)extras.getSerializable("nowy");
+//            this.db.usun(Integer.toString(nowy.get_id()));
+//            adapter.changeCursor(db.lista());
+//            adapter.notifyDataSetChanged();
+//        }
     }
 
 }
